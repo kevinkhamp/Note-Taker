@@ -1,46 +1,38 @@
 const notes = require('express').Router()
-const {readFromFile, readAndAppend} = require('../helpers/fsUtils')
+// const {readFromFile, readAndAppend, writeToFile} = require('../helpers/fsUtils')
 const uuid = require('../helpers/uuid')
-const db = require('../db/db.json')
+const fs = require('fs')
 
 // GET Route for db file
-notes.get('/', (req,res) => {
-readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
+notes.get('/', async (req,res) => {
+const readNotes = await JSON.parse(fs.readFileSync('./db/db.json'))
+res.json(readNotes)
 })
 
 notes.post('/', (req,res) => {
-    console.log(req.body)
+    // console.log(req.body)
 
-    const {title, text} = req.body
+    const readNotes = JSON.parse(fs.readFileSync('./db/db.json'))
 
-    if (req.body) {
     const newNote = {
         title,
         text,
         note_id: uuid(),
     }
 
-    readAndAppend(newNote, './db/db.json')
-    res.json('Note added')
-    } else {
-        res.error('Error in adding note')
-    }
+    readNotes.push(newNote)
+    fs.writeFileSync('./db/db.json', JSON.stringify(readNotes))
+    res.json(readNotes)
 })
 
-// notes.delete('/:id', (req,res) => {
-//     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
-
-//     const newNotes = dataJSON.filter((note) => {
-//         return note.id !== req.params.id
-//     })
-
-//     readAndAppend('./db/db.json', JSON.stringify(newNotes), (err) => {
-//         if (err) {
-//             console.error(err)
-//             return
-//         }
-//     })
-//     res.json('Note deleted')
-//     })
+notes.delete('/:id', (req,res) => {
+    const readNotes = fs.readFileSync('./db/db.json', 'utf8')
+    const noteData = JSON.parse(readNotes)
+    const newNotes = noteData.filter((note) => {
+        return note.id !== req.params.id
+    })
+    fs.writeFileSync('./db/db.json', JSON.stringify(newNotes))
+    res.json("You finally deleted the note")
+    })
 
 module.exports = notes
