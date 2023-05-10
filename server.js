@@ -6,16 +6,13 @@ const api = require('./routes/index.js')
 const PORT = process.env.PORT ||  3001
 
 const app = express()
-
 // Import cLog
 app.use(clog)
-
-// Middleware
-app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use('/api', api) // Routes to index.js in Routes
-
+app.use(express.json())
 app.use(express.static('public'))
+// Middleware
+app.use('/api', api) // Routes to index.js in Routes
 
 // GET Route for homepage
 app.get('/', (req,res) => 
