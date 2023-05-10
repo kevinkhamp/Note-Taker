@@ -1,39 +1,46 @@
 const notes = require('express').Router()
 const {readFromFile, readAndAppend} = require('../helpers/fsUtils')
 const uuid = require('../helpers/uuid')
+const db = require('../db/db.json')
 
 // GET Route for db file
-notes.get('/', (req,res) =>
+notes.get('/', (req,res) => {
 readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
-)
+})
 
 notes.post('/', (req,res) => {
+    console.log(req.body)
 
-    const {noteTitle, noteText} = req.body
+    const {title, text} = req.body
 
-    if (noteTitle && noteText) {
+    if (req.body) {
     const newNote = {
-        noteTitle,
-        noteText,
-        noteID: uuid(),
+        title,
+        text,
+        note_id: uuid(),
     }
 
     readAndAppend(newNote, './db/db.json')
-
-    const response = {
-            status: 'success',
-            body: newNote,
-        }
-
-        res.json(response)
+    res.json('Note added')
     } else {
-        res.json('Error in posting note')
+        res.error('Error in adding note')
     }
 })
 
-notes.delete('/', (req,res) => {
-    console.info(`${req.method} request received`)
-    res.send('Deleted')
-})
+// notes.delete('/:id', (req,res) => {
+//     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
+
+//     const newNotes = dataJSON.filter((note) => {
+//         return note.id !== req.params.id
+//     })
+
+//     readAndAppend('./db/db.json', JSON.stringify(newNotes), (err) => {
+//         if (err) {
+//             console.error(err)
+//             return
+//         }
+//     })
+//     res.json('Note deleted')
+//     })
 
 module.exports = notes
