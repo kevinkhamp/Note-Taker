@@ -7,8 +7,7 @@ notes.get('/', (req,res) =>
 readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
 )
 
-notes.post('', (req,res) => {
-    console.into(`${req.method} request received`)
+notes.post('/', (req,res) => {
 
     const {noteTitle, noteText} = req.body
 
@@ -26,9 +25,9 @@ notes.post('', (req,res) => {
             body: newNote,
         }
 
-        res.status(201).json(response)
+        res.json(response)
     } else {
-        res.status(500).json('Error in posting note')
+        res.json('Error in posting note')
     }
 })
 
