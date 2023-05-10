@@ -21,32 +21,20 @@ notes.post('', (req,res) => {
 
     readAndAppend(newNote, './db/db.json')
 
-    fs.readFile('./db/db.json', 'utf8', (err,data) => {
-        if (err) {
-            console.error(err)
-        } else {
-            const parsedNote = JSON.parse(data)
-            parsedNote.push(newNote)
-
-            fs.writeFile('./db/db.json', JSON.stringify(parsedNote), (writeErr) =>
-            writeErr ? console.error(writeErr) : console.info('Note saved!')
-            )
-        }
-    })
-
-        const response = {
+    const response = {
             status: 'success',
             body: newNote,
         }
 
-        console.log(response)
         res.status(201).json(response)
     } else {
         res.status(500).json('Error in posting note')
     }
 })
 
-app.delete('/api/notes', (req,res) => {
+app.delete('/', (req,res) => {
     console.info(`${req.method} request received`)
     res.send('Deleted')
 })
+
+module.exports = notes
