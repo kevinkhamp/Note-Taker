@@ -5,8 +5,8 @@ This repository contains code for a note taking application. You can create note
 
 ## Visuals
 
-![NoteTaker](https://github.com/shimpfierie/Note-Taker/blob/main/note1.png?raw=true)
-![NoteTaker](https://github.com/shimpfierie/Note-Taker/blob/main/note2.png?raw=true)
+![NoteTaker](https://github.com/shimpfierie/Note-Taker/blob/main/note1.PNG?raw=true)
+![NoteTaker](https://github.com/shimpfierie/Note-Taker/blob/main/note2.PNG?raw=true)
 
 ## Installation
 
