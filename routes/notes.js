@@ -32,7 +32,7 @@ notes.post('', (req,res) => {
     }
 })
 
-app.delete('/', (req,res) => {
+notes.delete('/', (req,res) => {
     console.info(`${req.method} request received`)
     res.send('Deleted')
 })
