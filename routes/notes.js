@@ -15,8 +15,8 @@ notes.post('/', (req,res) => {
     const readNotes = JSON.parse(fs.readFileSync('./db/db.json'))
 
     const newNote = {
-        title,
-        text,
+        title: req.body.title,
+        text: req.body.text,
         note_id: uuid(),
     }
 
